@@ -45,7 +45,7 @@ if ($NothingToDo) {
 
 # Path variables
 $ProjectRoot = Split-Path -parent $PSCommandPath
-$SolutionFolder = Join-Path $ProjectRoot src
+$SolutionFolder = $ProjectRoot
 $SolutionFile = Join-Path $SolutionFolder "PInvoke.sln"
 $BinFolder = Join-Path $ProjectRoot "bin"
 $BinConfigFolder = Join-Path $BinFolder $Configuration
@@ -111,7 +111,7 @@ if (($Build -or $Rebuild) -and $PSCmdlet.ShouldProcess($SolutionFile, "Build")) 
 }
 
 if ($Test -and $PSCmdlet.ShouldProcess('Test assemblies')) {
-    $TestAssemblies = Get-ChildItem -Recurse "$BinTestsFolder\*.Tests.dll" |? { $_.Directory -notlike '*netcoreapp*' }
+    $TestAssemblies = Get-ChildItem -Recurse "$BinTestsFolder\*.Tests.dll" |? { ($_.Directory -notlike '*netcoreapp*') -and ($_.Directory -like "*$Configuration*") }
     $xunitArgs = @()
     $xunitArgs += $TestAssemblies
     $xunitArgs += "-html","$BinTestsFolder\testresults.html","-xml","$BinTestsFolder\testresults.xml"
@@ -121,7 +121,7 @@ if ($Test -and $PSCmdlet.ShouldProcess('Test assemblies')) {
     }
 
     Write-Host "Testing x86..." -ForegroundColor Yellow
-    $xunitRunner = Join-Path $PackageRestoreRoot 'xunit.runner.console/2.4.1/tools/net472/xunit.console.x86.exe'
+    $xunitRunner = Join-Path $PackageRestoreRoot 'xunit.runner.console/2.4.2/tools/net472/xunit.console.x86.exe'
     & $xunitRunner $xunitArgs
     if ($LASTEXITCODE -ne 0) {
         Write-Error "x86 test run returned exit code $LASTEXITCODE"
@@ -129,7 +129,7 @@ if ($Test -and $PSCmdlet.ShouldProcess('Test assemblies')) {
     }
 
     Write-Host "Testing x64..." -ForegroundColor Yellow
-    $xunitRunner = Join-Path $PackageRestoreRoot 'xunit.runner.console/2.4.1/tools/net472/xunit.console.exe'
+    $xunitRunner = Join-Path $PackageRestoreRoot 'xunit.runner.console/2.4.2/tools/net472/xunit.console.exe'
     & $xunitRunner $xunitArgs
     if ($LASTEXITCODE -ne 0) {
         Write-Error "x64 test run returned exit code $LASTEXITCODE"

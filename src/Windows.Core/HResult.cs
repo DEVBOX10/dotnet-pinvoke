@@ -1,4 +1,4 @@
-﻿// Copyright © .NET Foundation and Contributors. All rights reserved.
+// Copyright © .NET Foundation and Contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace PInvoke
@@ -138,12 +138,12 @@ namespace PInvoke
         /// <summary>
         /// Gets the facility code of the HRESULT.
         /// </summary>
-        public FacilityCode Facility => (FacilityCode)(this.AsUInt32 & FacilityMask);
+        public FacilityCode Facility => (FacilityCode)((this.AsUInt32 & FacilityMask) >> FacilityShift);
 
         /// <summary>
         /// Gets the severity of the HRESULT.
         /// </summary>
-        public SeverityCode Severity => (SeverityCode)(this.AsUInt32 & SeverityMask);
+        public SeverityCode Severity => (SeverityCode)((this.AsUInt32 & SeverityMask) >> SeverityShift);
 
         /// <summary>
         /// Gets the facility's status code bits from the HRESULT.
