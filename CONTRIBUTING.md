@@ -200,6 +200,9 @@ anything else found in native header files for these reasons:
 
 | C/C++ type  | C# type   |
 | ----------- | --------- |
+| `short`     | `short`   |
+| `WORD`      | `ushort`  |
+| `DWORD`     | `uint`    |
 | `int`       | `int`     |
 | `long`      | `int`     |
 | `long long` | `long`    |
@@ -358,7 +361,7 @@ Safe handles should follow a few rules:
 * They should have a constructor allowing to reuse pre-existing handles.
 * They should have a static field for each invalid values for easy access.
 
-A good example would be [`SafeHookHandle.cs`](src/User32.Desktop/User32+SafeHookHandle.cs).
+A good example would be [`SafeHookHandle.cs`](src/User32/User32+SafeHookHandle.cs).
 
 [SigImp]: https://devblogs.microsoft.com/vbteam/making-pinvoke-easy/
 [APISets]: https://msdn.microsoft.com/en-us/library/windows/desktop/hh802935(v=vs.85).aspx
